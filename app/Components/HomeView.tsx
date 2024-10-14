@@ -23,7 +23,25 @@ export default function Page() {
     //Function to start recording
 
     const startRecording = () => {
-        setRecording(true);
+        setRecording(true)
+        
+        // Create a new SpeechRecognition instance and configure it
+    recognitionRef.current = new window.webkitSpeechRecognition();
+    recognitionRef.current.continuous = true;
+    recognitionRef.current.interimResults = true;
+
+    // Event handler for speech recognition results
+    recognitionRef.current.onresult = (event: any) => {
+      const { transcript } = event.results[event.results.length - 1][0];
+
+      // Log the recognition results and update the transcript state
+      console.log(event.results);
+      setTranscription(transcript);
+    };
+
+    // Start the speech recognition
+    recognitionRef.current.start();
+        
         
     }
 
